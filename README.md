@@ -10,10 +10,11 @@ Python API for the *Verkehrsverbund Grossraum Nuernberg (VGN)*.
 
 Uses the official [REST-API](https://start.vag.de/dm/) to query realtime public transport information for Nuremberg.
 
+[Read the docs](https://vgn.readthedocs.io/en/latest/) for more information.
+
 ## Example
 
 ``` python
-import datetime
 import vgn
 
 # Print all departures for the station with ID 704 (Nuernberg Plaerrer)
