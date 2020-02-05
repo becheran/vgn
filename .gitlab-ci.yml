@@ -1,0 +1,46 @@
+image: python:3.8-slim
+
+before_script:
+- python -V
+- apt-get update -q -y
+- pip install -r requirements.txt
+- pip install twine
+
+stages:
+- test
+- build
+- deploy
+
+test_python_3_7:
+  image: python:3.7-slim
+  stage: test
+  script:
+  - echo "Running tests"
+  - python -m pytest
+
+test_python_3_8:
+  image: python:3.8-slim
+  stage: test
+  script:
+  - echo "Running tests"
+  - python -m pytest
+
+build:
+  stage: build
+  script:
+  - echo "Build package with setup.py"
+  - python setup.py sdist bdist_wheel
+  artifacts:
+    paths:
+      - dist/
+  
+deploy:
+  stage: deploy
+  variables:
+    TWINE_USERNAME: $DEPLOY_USERNAME
+    TWINE_PASSWORD: $DEPLOY_PASSWORD
+  script:
+    - echo "Deploy to PyPi"
+    - twine upload dist/*
+  only:
+    - tags
