@@ -1,3 +1,3 @@
-from .functions import *
-from .data_classes import *
-from .exceptions import *
+from vgn.data_classes import *
+from vgn.exceptions import *
+from vgn.functions import *
