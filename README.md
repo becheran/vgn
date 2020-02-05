@@ -4,6 +4,7 @@
 [![PyPI download month](https://img.shields.io/pypi/dm/vag.svg)](https://pypi.python.org/pypi/vag/)
 [![PyPI download month](https://img.shields.io/pypi/pyversions/vag.svg)](https://img.shields.io/pypi/pyversions/vag)
 [![Documentation Status](https://readthedocs.org/projects/vgn/badge/?version=latest)](https://vgn.readthedocs.io/en/latest/?badge=latest)
+![Build Status](https://gitlab.com/becheran/vgn_ci_job/badges/master/pipeline.svg)
 
 Python API for the *Verkehrsverbund Grossraum Nuernberg (VGN)*.
 
