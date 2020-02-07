@@ -27,7 +27,7 @@ def stations(stop_name: str = '') -> List[Station]:
     """ List with the stops for the specified stop name.
 
     Args:
-        stop_name: Name of the station (like).
+        stop_name: (optional) Name of the station.
     Returns:
         list: List of station objects with the stop_name, or all stations if stop_name is not defined.
     """
@@ -47,6 +47,19 @@ def nearby_stations(location: Coordinates, radius: int = 1000) -> List[Station]:
     """
     query = _url(f'haltestellen/VGN/location?lon={location.longitude}&lat={location.latitude}&radius={radius}')
     return conv.to_stations(_get(query).get('Haltestellen'))
+
+
+def station_additional_information(stop_id: int) -> List[str]:
+    """ List of information text strings for a given stop.
+
+    Args:
+        stop_id (int): The VGN stop identifier number.
+
+    Returns:
+        list: List of strings containing additional information for the given station.
+    """
+    query = _url(f'abfahrten/VGN/{stop_id}')
+    return _get(query).get('Sonderinformationen')
 
 
 def departure_schedule(stop_id: int,
@@ -99,19 +112,6 @@ def departure_schedule_for_line(stop_id: int,
                  f'&timedelay={timedelay}'
                  f'&limitcount={limit_result}')
     return conv.to_departures(_get(query).get('Abfahrten'))
-
-
-def additional_information(stop_id: int) -> List[str]:
-    """ List of information text strings for a given stop.
-
-    Args:
-        stop_id (int): The VGN stop identifier number.
-
-    Returns:
-        list: List of strings containing additional information for the given station.
-    """
-    query = _url(f'abfahrten/VGN/{stop_id}')
-    return _get(query).get('Sonderinformationen')
 
 
 def rides(transport_type: TransportType, time_span: int = 60) -> List[Ride]:
