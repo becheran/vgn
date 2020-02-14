@@ -18,20 +18,30 @@ def _get(query) -> dict:
 
 
 def api_version() -> str:
-    """ Metadata version info from the VGN REST-API."""
+    """ Version info from the VGN REST-API."""
     query = _url('haltestellen/VGN/location?lon=0&lat=0')
     return _get(query).get('Metadata').get('Version')
 
 
-def stations(stop_name: str = '') -> List[Station]:
-    """ List with the stops for the specified stop name.
+def all_stations() -> List[Station]:
+    """ List of all stations.
+
+    Returns:
+        list: List of stations for the VGN transport association.
+    """
+    query = _url(f'haltestellen/VGN')
+    return conv.to_stations(_get(query).get('Haltestellen'))
+
+
+def stations(station_name: str) -> List[Station]:
+    """ List of stations for the specified station name.
 
     Args:
-        stop_name: (optional) Name of the station.
+        station_name (optional): Name of a station.
     Returns:
-        list: List of station objects with the stop_name, or all stations if stop_name is not defined.
+        list: List of station objects for the given stop_name.
     """
-    query = _url(f'haltestellen/VGN?name={stop_name}') if stop_name else _url(f'haltestellen/VGN')
+    query = _url(f'haltestellen/VGN?name={station_name}') if station_name else _url(f'haltestellen/VGN')
     return conv.to_stations(_get(query).get('Haltestellen'))
 
 

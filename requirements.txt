@@ -2,3 +2,4 @@ requests>=2.22.0,<3
 sphinx
 pytest
 sphinx_rtd_theme
+python-dateutil

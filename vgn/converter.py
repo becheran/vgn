@@ -1,9 +1,10 @@
 from vgn.data_classes import *
+from dateutil.parser import parse
 
 
-def _to_datetime(iso_8601_str: str):
-    if iso_8601_str:
-        return datetime.datetime.strptime(iso_8601_str, "%Y-%m-%dT%H:%M:%S%z")
+def _to_datetime(date_str: str):
+    if date_str:
+        return parse(date_str)
     else:
         return None
 
