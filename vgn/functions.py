@@ -77,19 +77,21 @@ def departure_schedule(stop_id: int,
                                                               TransportType.SUBWAY],
                        timespan: int = 10,
                        timedelay: int = 5,
-                       limit_result: int = 0) -> List[Departure]:
+                       limit_result: int = 100) -> List[Departure]:
     """ Departures for a specific stop.
 
     Args:
         stop_id: The VGN stop identifier number.
         transport_type: Information shall only be given for the defined transport means of transportation.
-        limit_result (optional): Limit amount of returned results. Zero means no limit.
+        limit_result (optional): Limit amount of returned results. Default limit is 100.
         timedelay (optional): Time delay for the request in minutes.
         timespan (optional): Time window for the query in minutes.
 
     Returns:
         list: List of departures for the given station.
     """
+    if limit_result <= 0:
+        limit_result = 100
     transport_type_str = ','.join(list(map(lambda x: x.value, transport_type)))
     query = _url(
         f'abfahrten/VGN/{stop_id}'
@@ -104,19 +106,21 @@ def departure_schedule_for_line(stop_id: int,
                                 line_name: str,
                                 timespan: int = 10,
                                 timedelay: int = 5,
-                                limit_result: int = 0) -> List[Departure]:
+                                limit_result: int = 100) -> List[Departure]:
     """ List of  Departures for a specific stop and line.
 
     Args:
         line_name: Name of the line. For example 'U2' for the underground line two.
         stop_id: The VGN stop identifier number.
-        limit_result (optional): Limit amount of returned results. Zero means no limit.
+        limit_result (optional): Limit amount of returned results. Default limit is 100.
         timedelay (optional): Time delay for the request in minutes.
         timespan (optional): Time window for the query in minutes.
 
     Returns:
         list: List of departures for the given station and line.
     """
+    if limit_result <= 0:
+        limit_result = 100
     query = _url(f'abfahrten/VGN/{stop_id}/{line_name}'
                  f'?timespan={timespan}'
                  f'&timedelay={timedelay}'
