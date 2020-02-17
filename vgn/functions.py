@@ -174,21 +174,19 @@ async def route_for_day(transport_type: TransportType, ride_id: int, day: dateti
 
 
 async def main():
-    print(await all_stations())
-    print(await api_version())
+    res = await asyncio.gather(
+        api_version(),
+        all_stations(),
+        departure_schedule(704),
+        departure_schedule_for_line(704, "U2"),
+        rides(TransportType.BUS, 30),
+    )
+    print(f'Api version: {res[0]}')
+    print(f'Stations in nbg: {str(len(res[1]))}')
+    print(f'Departures at plaerrer in nbg: {res[2]}')
+    print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
+    print(f'Bug departures in the next 30 minutes: {res[4]}')
 
 
 if __name__ == '__main__':
     asyncio.run(main())
-    # print('Stations in nbg: ' + str(len(all_s)))
-    # print(all_s)
-    # dep = departure_schedule(704)
-    # dep_for_line = departure_schedule_for_line(704, "U2")
-    # rid = rides(TransportType.BUS, 30)
-    # rou = route(TransportType.BUS, 2008502)
-    # rou_day = route_for_day(TransportType.BUS, 2008502, datetime.date(2020, 2, 6))
-    # print(dep)
-    # print(dep_for_line)
-    # print(rid)
-    # print(rou)
-    # print(rou_day)
