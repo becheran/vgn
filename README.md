@@ -4,7 +4,7 @@
 ![Version](https://img.shields.io/pypi/v/vgn)
 [![PyPI download month](https://img.shields.io/pypi/dm/vgn.svg)](https://pypi.python.org/pypi/vgn/)
 [![Python versions](https://img.shields.io/pypi/pyversions/vgn.svg)](https://img.shields.io/pypi/pyversions/vgn)
-[![Documentation Status](https://readthedocs.org/projects/vgn/badge/?version=latest)](https://vgn.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/vgn/badge/?version=stable)](https://vgn.readthedocs.io/en/stable/?badge=stable)
 [![Build Status](https://gitlab.com/becheran/vgn_ci_job/badges/master/pipeline.svg)](https://gitlab.com/becheran/vgn_ci_job/pipelines)
 
 Python API for the *Verkehrsverbund Grossraum Nuernberg (VGN)*.
