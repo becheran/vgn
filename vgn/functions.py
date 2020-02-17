@@ -1,39 +1,41 @@
-import requests
 from vgn.exceptions import VgnGetError
 from vgn.data_classes import *
 import vgn.converter as conv
 import datetime
+import asyncio
+import aiohttp
 
 
 def _url(path):
     return 'https://start.vag.de/dm/api/v1/' + path
 
 
-def _get(query) -> dict:
-    resp = requests.get(query)
-    if resp.status_code == 200:
-        return resp.json()
-    else:
-        raise VgnGetError(f'Could not resolve query {query}. Returned {resp.status_code}')
+async def _get(query) -> dict:
+    async with aiohttp.ClientSession() as session:
+        async with session.get(query) as resp:
+            if resp.status == 200:
+                return await resp.json()
+            else:
+                raise VgnGetError(f'Could not resolve query {query}. Returned {resp.status}')
 
 
-def api_version() -> str:
+async def api_version() -> str:
     """ Version info from the VGN REST-API."""
     query = _url('haltestellen/VGN/location?lon=0&lat=0')
-    return _get(query).get('Metadata').get('Version')
+    return (await _get(query)).get('Metadata').get('Version')
 
 
-def all_stations() -> List[Station]:
+async def all_stations() -> List[Station]:
     """ List of all stations.
 
     Returns:
         list: List of stations for the VGN transport association.
     """
     query = _url(f'haltestellen/VGN')
-    return conv.to_stations(_get(query).get('Haltestellen'))
+    return conv.to_stations((await _get(query)).get('Haltestellen'))
 
 
-def stations(station_name: str) -> List[Station]:
+async def stations(station_name: str) -> List[Station]:
     """ List of stations for the specified station name.
 
     Args:
@@ -42,10 +44,10 @@ def stations(station_name: str) -> List[Station]:
         list: List of station objects for the given stop_name.
     """
     query = _url(f'haltestellen/VGN?name={station_name}') if station_name else _url(f'haltestellen/VGN')
-    return conv.to_stations(_get(query).get('Haltestellen'))
+    return conv.to_stations((await _get(query)).get('Haltestellen'))
 
 
-def nearby_stations(location: Coordinates, radius: int = 1000) -> List[Station]:
+async def nearby_stations(location: Coordinates, radius: int = 1000) -> List[Station]:
     """ List stops close to a given location.
 
     Args:
@@ -56,10 +58,10 @@ def nearby_stations(location: Coordinates, radius: int = 1000) -> List[Station]:
         list: List of station objects in radius of the given location.
     """
     query = _url(f'haltestellen/VGN/location?lon={location.longitude}&lat={location.latitude}&radius={radius}')
-    return conv.to_stations(_get(query).get('Haltestellen'))
+    return conv.to_stations((await _get(query)).get('Haltestellen'))
 
 
-def station_additional_information(stop_id: int) -> List[str]:
+async def station_additional_information(stop_id: int) -> List[str]:
     """ List of information text strings for a given stop.
 
     Args:
@@ -69,15 +71,15 @@ def station_additional_information(stop_id: int) -> List[str]:
         list: List of strings containing additional information for the given station.
     """
     query = _url(f'abfahrten/VGN/{stop_id}')
-    return _get(query).get('Sonderinformationen')
+    return (await _get(query)).get('Sonderinformationen')
 
 
-def departure_schedule(stop_id: int,
-                       transport_type: List[TransportType] = [TransportType.BUS, TransportType.TRAM,
-                                                              TransportType.SUBWAY],
-                       timespan: int = 10,
-                       timedelay: int = 5,
-                       limit_result: int = 100) -> List[Departure]:
+async def departure_schedule(stop_id: int,
+                             transport_type: List[TransportType] = [TransportType.BUS, TransportType.TRAM,
+                                                                    TransportType.SUBWAY],
+                             timespan: int = 10,
+                             timedelay: int = 5,
+                             limit_result: int = 100) -> List[Departure]:
     """ Departures for a specific stop.
 
     Args:
@@ -99,14 +101,14 @@ def departure_schedule(stop_id: int,
         f'&timespan={timespan}'
         f'&timedelay={timedelay}'
         f'&limitcount={limit_result}')
-    return conv.to_departures(_get(query).get('Abfahrten'))
+    return conv.to_departures((await _get(query)).get('Abfahrten'))
 
 
-def departure_schedule_for_line(stop_id: int,
-                                line_name: str,
-                                timespan: int = 10,
-                                timedelay: int = 5,
-                                limit_result: int = 100) -> List[Departure]:
+async def departure_schedule_for_line(stop_id: int,
+                                      line_name: str,
+                                      timespan: int = 10,
+                                      timedelay: int = 5,
+                                      limit_result: int = 100) -> List[Departure]:
     """ List of  Departures for a specific stop and line.
 
     Args:
@@ -125,10 +127,10 @@ def departure_schedule_for_line(stop_id: int,
                  f'?timespan={timespan}'
                  f'&timedelay={timedelay}'
                  f'&limitcount={limit_result}')
-    return conv.to_departures(_get(query).get('Abfahrten'))
+    return conv.to_departures((await _get(query)).get('Abfahrten'))
 
 
-def rides(transport_type: TransportType, time_span: int = 60) -> List[Ride]:
+async def rides(transport_type: TransportType, time_span: int = 60) -> List[Ride]:
     """ All running and starting rides for a given transport type within a given time frame (default 60 minutes)
 
     Args:
@@ -139,10 +141,10 @@ def rides(transport_type: TransportType, time_span: int = 60) -> List[Ride]:
         list: List of rides for the given transport type within the time window.
     """
     query = _url(f'fahrten/{transport_type.value}?timespan={time_span}')
-    return conv.to_rides(_get(query).get('Fahrten'))
+    return conv.to_rides((await _get(query)).get('Fahrten'))
 
 
-def route(transport_type: TransportType, ride_id: int) -> Route:
+async def route(transport_type: TransportType, ride_id: int) -> Route:
     """ Route for a given transport type and ride number for the current operating day
 
     Args:
@@ -153,10 +155,10 @@ def route(transport_type: TransportType, ride_id: int) -> Route:
         Route: The route for the given ride_number
     """
     query = _url(f'fahrten/{transport_type.value}/{ride_id}')
-    return conv.to_route(_get(query))
+    return conv.to_route((await _get(query)))
 
 
-def route_for_day(transport_type: TransportType, ride_id: int, day: datetime.date) -> Route:
+async def route_for_day(transport_type: TransportType, ride_id: int, day: datetime.date) -> Route:
     """ Route for a given transport type, ride number and operating day.
 
     Args:
@@ -168,20 +170,25 @@ def route_for_day(transport_type: TransportType, ride_id: int, day: datetime.dat
         Route: The route for the given ride_number on the requested day.
     """
     query = _url(f'fahrten/{transport_type.value}/{day}/{ride_id}')
-    return conv.to_route(_get(query))
+    return conv.to_route((await _get(query)))
+
+
+async def main():
+    print(await all_stations())
+    print(await api_version())
 
 
 if __name__ == '__main__':
-    all_s = all_stations()
-    print('Stations in nbg: ' + str(len(all_s)))
-    print(all_s)
-    dep = departure_schedule(704)
-    dep_for_line = departure_schedule_for_line(704, "U2")
-    rid = rides(TransportType.BUS, 30)
+    asyncio.run(main())
+    # print('Stations in nbg: ' + str(len(all_s)))
+    # print(all_s)
+    # dep = departure_schedule(704)
+    # dep_for_line = departure_schedule_for_line(704, "U2")
+    # rid = rides(TransportType.BUS, 30)
     # rou = route(TransportType.BUS, 2008502)
     # rou_day = route_for_day(TransportType.BUS, 2008502, datetime.date(2020, 2, 6))
-    print(dep)
-    print(dep_for_line)
-    print(rid)
+    # print(dep)
+    # print(dep_for_line)
+    # print(rid)
     # print(rou)
     # print(rou_day)
