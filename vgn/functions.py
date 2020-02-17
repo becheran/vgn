@@ -37,7 +37,7 @@ def stations(station_name: str) -> List[Station]:
     """ List of stations for the specified station name.
 
     Args:
-        station_name (optional): Name of a station.
+        station_name: Name of a station.
     Returns:
         list: List of station objects for the given stop_name.
     """
@@ -50,7 +50,7 @@ def nearby_stations(location: Coordinates, radius: int = 1000) -> List[Station]:
 
     Args:
         location: Search for stations close to this location.
-        radius: Radius for search in meter
+        radius (optional): Radius for search in meter
 
     Returns:
         list: List of station objects in radius of the given location.
@@ -63,7 +63,7 @@ def station_additional_information(stop_id: int) -> List[str]:
     """ List of information text strings for a given stop.
 
     Args:
-        stop_id (int): The VGN stop identifier number.
+        stop_id (optional): The VGN stop identifier number.
 
     Returns:
         list: List of strings containing additional information for the given station.
@@ -81,11 +81,11 @@ def departure_schedule(stop_id: int,
     """ Departures for a specific stop.
 
     Args:
-        stop_id (int): The VGN stop identifier number.
+        stop_id: The VGN stop identifier number.
         transport_type: Information shall only be given for the defined transport means of transportation.
-        limit_result: Limit amount of returned results. Zero means no limit.
-        timedelay: Time delay for the request in minutes.
-        timespan: Time window for the query in minutes.
+        limit_result (optional): Limit amount of returned results. Zero means no limit.
+        timedelay (optional): Time delay for the request in minutes.
+        timespan (optional): Time window for the query in minutes.
 
     Returns:
         list: List of departures for the given station.
@@ -109,10 +109,10 @@ def departure_schedule_for_line(stop_id: int,
 
     Args:
         line_name: Name of the line. For example 'U2' for the underground line two.
-        stop_id (int): The VGN stop identifier number.
-        limit_result: Limit amount of returned results. Zero means no limit.
-        timedelay: Time delay for the request in minutes.
-        timespan: Time window for the query in minutes.
+        stop_id: The VGN stop identifier number.
+        limit_result (optional): Limit amount of returned results. Zero means no limit.
+        timedelay (optional): Time delay for the request in minutes.
+        timespan (optional): Time window for the query in minutes.
 
     Returns:
         list: List of departures for the given station and line.
@@ -129,7 +129,7 @@ def rides(transport_type: TransportType, time_span: int = 60) -> List[Ride]:
 
     Args:
         transport_type: Transportation type. For example Bus.
-        time_span: Time window in minutes (default 60 minutes)
+        time_span (optional): Time window in minutes (default 60 minutes)
 
     Returns:
         list: List of rides for the given transport type within the time window.
@@ -168,13 +168,16 @@ def route_for_day(transport_type: TransportType, ride_id: int, day: datetime.dat
 
 
 if __name__ == '__main__':
+    all_s = all_stations()
+    print('Stations in nbg: ' + str(len(all_s)))
+    print(all_s)
     dep = departure_schedule(704)
     dep_for_line = departure_schedule_for_line(704, "U2")
     rid = rides(TransportType.BUS, 30)
-    rou = route(TransportType.BUS, 2008502)
-    rou_day = route_for_day(TransportType.BUS, 2008502, datetime.date(2020, 2, 6))
+    # rou = route(TransportType.BUS, 2008502)
+    # rou_day = route_for_day(TransportType.BUS, 2008502, datetime.date(2020, 2, 6))
     print(dep)
     print(dep_for_line)
     print(rid)
-    print(rou)
-    print(rou_day)
+    # print(rou)
+    # print(rou_day)

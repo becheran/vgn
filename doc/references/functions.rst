@@ -10,6 +10,7 @@ Stations
 ++++++++
 
 .. autofunction:: vgn.functions.stations
+.. autofunction:: vgn.functions.all_stations
 .. autofunction:: vgn.functions.nearby_stations
 .. autofunction:: vgn.functions.station_additional_information
 
