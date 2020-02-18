@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="vgn",
-    version="0.0.3",
+    version="1.0.0",
     author="Armin Becher",
     author_email="becherarmin@gmail.com",
-    description="VGN API for python 3",
+    description="VGN async API for python 3",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/becheran/vgn",
@@ -22,8 +22,8 @@ setuptools.setup(
     ],
     python_requires='>=3.7',
     install_requires=[
-        'requests>=2.6.2,<3',
-        'python-dateutil'
+        'python-dateutil',
+        'aiohttp>=3.6.2,<4'
     ],
     setup_requires=['wheel'],
 )
