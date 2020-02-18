@@ -13,7 +13,7 @@ Uses the official [REST-API](https://start.vag.de/dm/) to query realtime public 
 
 With the python 3.7 feature [asyncio tasks](https://docs.python.org/3/library/asyncio-task.html) fast and non-blocking querries are possible.
 
-[Read the docs](https://vgn.readthedocs.io/en/latest/) for more information.
+[Read the docs](https://vgn.readthedocs.io/en/stable/) for more information.
 
 ## Example
 
