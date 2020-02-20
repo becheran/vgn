@@ -19,15 +19,16 @@ With the python 3.7 feature [asyncio tasks](https://docs.python.org/3/library/as
 
 ``` python
 import vgn
+import asyncio
 
 
 async def main():
     res = await asyncio.gather(
-        api_version(),
-        all_stations(),
-        departure_schedule(704),
-        departure_schedule_for_line(704, "U2"),
-        rides(TransportType.BUS, 30),
+        vgn.api_version(),
+        vgn.all_stations(),
+        vgn.departure_schedule(704),
+        vgn.departure_schedule_for_line(704, "U2"),
+        vgn.rides(vgn.TransportType.BUS, 30),
     )
     print(f'Api version: {res[0]}')
     print(f'Stations in nbg: {str(len(res[1]))}')
