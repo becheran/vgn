@@ -3,3 +3,4 @@ sphinx
 pytest
 sphinx_rtd_theme
 python-dateutil
+pytest-asyncio
