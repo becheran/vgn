@@ -7,11 +7,11 @@
 [![Documentation Status](https://readthedocs.org/projects/vgn/badge/?version=stable)](https://vgn.readthedocs.io/en/stable/?badge=stable)
 [![Build Status](https://gitlab.com/becheran/vgn_ci_job/badges/master/pipeline.svg)](https://gitlab.com/becheran/vgn_ci_job/pipelines)
 
-Asynchron Python API for the *Verkehrsverbund Grossraum Nuernberg (VGN)*.
+Asynchronous Python API for the *Verkehrsverbund Grossraum Nuernberg (VGN)*.
 
 Uses the official [REST-API](https://start.vag.de/dm/) to query realtime public transport information for Nuremberg.
 
-With the python 3.7 feature [asyncio tasks](https://docs.python.org/3/library/asyncio-task.html) fast and non-blocking querries are possible.
+With the python 3.7 feature [asyncio tasks](https://docs.python.org/3/library/asyncio-task.html) fast and non-blocking queries are possible.
 
 [Read the docs](https://vgn.readthedocs.io/en/stable/) for more information.
 
