@@ -17,16 +17,19 @@ Uses the official [REST-API](https://start.vag.de/dm/) to query realtime public 
 
 ``` python
 import vgn
+import asyncio
 
 
 async def main():
-    res = await asyncio.gather(
-        api_version(),
-        all_stations(),
-        departure_schedule(704),
-        departure_schedule_for_line(704, "U2"),
-        rides(TransportType.BUS, 30),
-    )
+    async with VGNClient() as vgn_client:
+        res = await asyncio.gather(
+            vgn_client.api_version(),
+            vgn_client.all_stations(),
+            vgn_client.departure_schedule(704),
+            vgn_client.departure_schedule_for_line(704, "U2"),
+            vgn_client.rides(TransportType.BUS, 30),
+        )
+
     print(f'Api version: {res[0]}')
     print(f'Stations in nbg: {str(len(res[1]))}')
     print(f'Departures at plaerrer in nbg: {res[2]}')

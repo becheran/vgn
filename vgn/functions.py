@@ -182,32 +182,12 @@ async def main():
             vgn_client.departure_schedule_for_line(704, "U2"),
             vgn_client.rides(TransportType.BUS, 30),
         )
-        print(f'Api version: {res[0]}')
-        print(f'Stations in nbg: {str(len(res[1]))}')
-        print(f'Departures at plaerrer in nbg: {res[2]}')
-        print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
-        print(f'Bug departures in the next 30 minutes: {res[4]}')
 
-        async with VGNClient() as vgn:
-            all_stations = await vgn.all_stations()
-
-            SEMAPHORE = asyncio.Semaphore(10000)
-
-            async def safe_scedule_query(s):
-                async with SEMAPHORE:  # semaphore limits num of simultaneous downloads
-                    print(f"Query {s}")
-                    result = await vgn.departure_schedule(s.station_id, timespan=5, limit_result=9999)
-                    print(f"Finished query {s}")
-                    return result
-
-            async def gather_departures(stations):
-                print(f"Gather all departures")
-
-                tasks = [safe_scedule_query(s) for s in stations]
-                return await asyncio.gather(*tasks)
-
-            departures = await gather_departures(all_stations)
-            print(departures[0])
+    print(f'Api version: {res[0]}')
+    print(f'Stations in nbg: {str(len(res[1]))}')
+    print(f'Departures at plaerrer in nbg: {res[2]}')
+    print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
+    print(f'Bug departures in the next 30 minutes: {res[4]}')
 
 
 if __name__ == '__main__':

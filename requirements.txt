@@ -1,4 +1,4 @@
-aiohttp>=3.6.2,<4
+aiohttp[speedups]>=3.6.2,<4
 sphinx
 pytest
 sphinx_rtd_theme
