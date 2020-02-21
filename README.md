@@ -23,19 +23,20 @@ import asyncio
 
 
 async def main():
-    res = await asyncio.gather(
-        vgn.api_version(),
-        vgn.all_stations(),
-        vgn.departure_schedule(704),
-        vgn.departure_schedule_for_line(704, "U2"),
-        vgn.rides(vgn.TransportType.BUS, 30),
-    )
+    async with VGNClient() as vgn_client:
+        res = await asyncio.gather(
+            vgn_client.api_version(),
+            vgn_client.all_stations(),
+            vgn_client.departure_schedule(704),
+            vgn_client.departure_schedule_for_line(704, "U2"),
+            vgn_client.rides(TransportType.BUS, 30),
+        )
+
     print(f'Api version: {res[0]}')
     print(f'Stations in nbg: {str(len(res[1]))}')
     print(f'Departures at plaerrer in nbg: {res[2]}')
     print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
-    print(f'Bug departures in the next 30 minutes: {res[4]}')
-
+    print(f'Bus departures in the next 30 minutes: {res[4]}')
 
 if __name__ == '__main__':
     asyncio.run(main())

@@ -23,7 +23,7 @@ setuptools.setup(
     python_requires='>=3.7',
     install_requires=[
         'python-dateutil',
-        'aiohttp>=3.6.2,<4'
+        'aiohttp[speedups]>=3.6.2,<4'
     ],
     setup_requires=['wheel'],
 )
