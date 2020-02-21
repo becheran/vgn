@@ -15,6 +15,8 @@ With the python 3.7 feature [asyncio tasks](https://docs.python.org/3/library/as
 
 [Read the docs](https://vgn.readthedocs.io/en/stable/) for more information.
 
+Consider installing `cchardet` and  `aiodns` via pip for speedup (see the [aiohttp documentation](https://docs.aiohttp.org/en/stable/)).
+
 ## Example
 
 ``` python
