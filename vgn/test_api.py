@@ -1,5 +1,8 @@
 import pytest
+import asyncio
 from vgn.functions import *
+
+test_loop = asyncio.get_event_loop()
 
 
 @pytest.mark.asyncio

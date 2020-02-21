@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="vgn",
-    version="0.0.3",
+    version="1.0.0",
     author="Armin Becher",
     author_email="becherarmin@gmail.com",
-    description="VGN API for python 3",
+    description="VGN async API for python 3",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/becheran/vgn",

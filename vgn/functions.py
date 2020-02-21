@@ -182,12 +182,11 @@ async def main():
             vgn_client.departure_schedule_for_line(704, "U2"),
             vgn_client.rides(TransportType.BUS, 30),
         )
-
     print(f'Api version: {res[0]}')
     print(f'Stations in nbg: {str(len(res[1]))}')
     print(f'Departures at plaerrer in nbg: {res[2]}')
     print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
-    print(f'Bug departures in the next 30 minutes: {res[4]}')
+    print(f'Bus departures in the next 30 minutes: {res[4]}')
 
 
 if __name__ == '__main__':
