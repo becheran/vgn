@@ -25,13 +25,13 @@ import asyncio
 
 
 async def main():
-    async with VGNClient() as vgn_client:
+    async with vgn.VGNClient() as vgn_client:
         res = await asyncio.gather(
             vgn_client.api_version(),
             vgn_client.all_stations(),
             vgn_client.departure_schedule(704),
             vgn_client.departure_schedule_for_line(704, "U2"),
-            vgn_client.rides(TransportType.BUS, 30),
+            vgn_client.rides(vgn.TransportType.BUS, 30),
         )
 
     print(f'Api version: {res[0]}')
