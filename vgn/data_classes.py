@@ -39,6 +39,7 @@ class Departure:
     actual_departure_time: datetime.datetime
     transport_type: TransportType
     coordinates: Coordinates
+    occupancy_level: str
     ride_id: int
     ride_type_id: int
     vehicle_number: str

@@ -44,6 +44,7 @@ def to_departures(returned_dict: dict) -> List[Departure]:
                                         _to_datetime(x.get('AbfahrtszeitIst')),
                                         _to_transport_type(x.get('Produkt')),
                                         Coordinates(x.get('Latitude'), x.get('Longitude')),
+                                        x.get("Besetzgrad"),
                                         x.get('Fahrtnummer'),
                                         x.get('Fahrtartnummer'),
                                         x.get('Fahrzeugnummer'),
