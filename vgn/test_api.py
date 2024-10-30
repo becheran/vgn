@@ -8,7 +8,7 @@ test_loop = asyncio.get_event_loop()
 @pytest.mark.asyncio
 async def test_api_version_did_not_change():
     async with VGNClient() as vgn_client:
-        assert (await vgn_client.api_version()) == 'Puls-API-v1.2'
+        assert (await vgn_client.api_version()) == 'Puls-API-v1.2.3'
 
 
 @pytest.mark.asyncio

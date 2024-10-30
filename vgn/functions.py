@@ -30,15 +30,6 @@ class VGNClient:
         query = self._url('haltestellen/VGN/location?lon=0&lat=0')
         return (await self._get(query)).get('Metadata').get('Version')
 
-    async def all_stations(self) -> List[Station]:
-        """ List of all stations.
-
-        Returns:
-            list: List of stations for the VGN transport association.
-        """
-        query = self._url(f'haltestellen/VGN')
-        return conv.to_stations((await self._get(query)).get('Haltestellen'))
-
     async def stations(self, station_name: str) -> List[Station]:
         """ List of stations for the specified station name.
 
@@ -177,16 +168,14 @@ async def main():
     async with VGNClient() as vgn_client:
         res = await asyncio.gather(
             vgn_client.api_version(),
-            vgn_client.all_stations(),
             vgn_client.departure_schedule(704),
             vgn_client.departure_schedule_for_line(704, "U2"),
             vgn_client.rides(TransportType.BUS, 30),
         )
     print(f'Api version: {res[0]}')
-    print(f'Stations in nbg: {str(len(res[1]))}')
-    print(f'Departures at plaerrer in nbg: {res[2]}')
-    print(f'Departures of underground line 2 at plaerrer in nbg: {res[3]}')
-    print(f'Bus departures in the next 30 minutes: {res[4]}')
+    print(f'Departures at plaerrer in nbg: {res[1]}')
+    print(f'Departures of underground line 2 at plaerrer in nbg: {res[2]}')
+    print(f'Bus departures in the next 30 minutes: {res[3]}')
 
 
 if __name__ == '__main__':
